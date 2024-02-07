@@ -8,9 +8,11 @@
 
  From the project directory:
  ```
- cargo run {path_to_image}
+ cargo run path_to_image
  ```
  The output quality will vary depending on the complexity of the source image (simpler images are better) and the passphrase. Try different passphrases and see what happens!
+
+ An image of Tux is included for historical & testing purposes.
 
 # Source
  The tool follows the following process:
@@ -25,4 +27,3 @@
  cat header.txt body.ecb.bin > Tux.ecb.ppm
  ```
  by: [Filippo Valsorda](https://words.filippo.io/the-ecb-penguin/)
-
