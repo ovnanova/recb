@@ -8,8 +8,13 @@ use std::env;
 
 fn main() -> io::Result<()> {
     let args: Vec<String> = env::args().collect();
-    if args.len() != 2 {
-        eprintln!("Usage: {} <image_path>", args[0]);
+    if args.len() != 3 {
+        eprintln!("Usage: {} <image_path> <passphrase>", args[0]);
+        std::process::exit(1);
+    }
+
+    if args[2].as_bytes().len() > 16 {
+        eprintln!("The passphrase must be no longer than 16 bytes.");
         std::process::exit(1);
     }
 
@@ -17,7 +22,7 @@ fn main() -> io::Result<()> {
     let image_file_name = Path::new(image_path)
         .file_stem()
         .and_then(|name| name.to_str())
-        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "Invalid file name"))?;
+        .ok_or_else(|| io::Error::new(io::ErrorKind::InvalidInput, "Invalid file name."))?;
     let ppm_path = "image.ppm";
     let ecb_ppm_output_path = "image.ecb.ppm";
     let ecb_output_path = format!("ecb_{}.png", image_file_name);
@@ -44,14 +49,15 @@ fn main() -> io::Result<()> {
     // Hash the passphrase
     // Change the passphrase to whatever you like
     // Different passphrases will produce different results
-    let passphrase = "ANNA";
-    let hashed = hash(MessageDigest::sha256(), passphrase.as_bytes()).expect("Failed to hash passphrase");
+    //let passphrase = "ANNA";
+    let passphrase = &args[2];
+    let hashed = hash(MessageDigest::sha256(), passphrase.as_bytes()).expect("Failed to hash passphrase.");
     // AES-128 requires a 16-byte key, so we will use the first 16 bytes of the hash as the key
     let key = &hashed[0..16];
 
     // Encrypt the body with AES-128-ECB
     let cipher = Cipher::aes_128_ecb();
-    let encrypted_data = encrypt(cipher, key, None, &body).expect("Encryption failed");
+    let encrypted_data = encrypt(cipher, key, None, &body).expect("Encryption failed.");
 
     // Write the encrypted PPM file
     // Write the PPM header first, then the encrypted body

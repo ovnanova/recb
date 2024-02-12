@@ -8,7 +8,7 @@
 
  From the project directory:
  ```
- cargo run path_to_image
+ cargo run path_to_image passphrase
  ```
  The output quality will vary depending on the complexity of the source image (simpler images are better) and the passphrase. Try different passphrases and see what happens!
 
