@@ -1,5 +1,5 @@
 # recb
- A tool to encrypt images with a block cipher in ECB mode that still clearly shows the outline of the original. 
+ A tool to encrypt images with a block cipher in ECB mode that still shows the outline of the original. 
  
  When encrypting in ECB mode, identical plaintext blocks are encrypted into identical ciphertext blocks. Thus, if there are repetitive patterns in the original image data, these patterns might still be somewhat visible in the encrypted image because areas of the image that have the same color (and thus the same data representation) will look the same after encryption.
 
@@ -10,7 +10,9 @@
  ```
  cargo run path_to_image passphrase
  ```
- The output quality will vary depending on the complexity of the source image (simpler images are better) and the passphrase. Try different passphrases and see what happens!
+ The output quality will vary depending on two factors:
+ - The complexity of the source image (simpler images have better results). I find that the best results are from simple renders with transparent backgrounds, like the included Tux.png.
+ - The passphrase. Try different passphrases and see what happens!
 
  An image of Tux is included for historical & testing purposes.
 
